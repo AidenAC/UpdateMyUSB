@@ -15,16 +15,18 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
+    final style = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.onPrimary
     );
 
@@ -35,6 +37,24 @@ class HomePage extends StatelessWidget {
           'Update My USB',
           style: style,
           ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.music_note_outlined,
+                color: style.color,
+              ),
+              tooltip: 'New Music!',
+              onPressed: () { }, 
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.person_2_outlined,
+                color: style.color,
+              ),
+              tooltip: 'User Profile',
+              onPressed: () { }, 
+            ),
+          ],
       ),
       body: const Center(
         child: SongLink(),
