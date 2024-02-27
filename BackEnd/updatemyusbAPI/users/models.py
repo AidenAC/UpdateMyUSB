@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.validators import MaxValueValidator, MinLengthValidator
 from django.db import models
 
 from .manager import USBUserManager
@@ -45,7 +44,7 @@ class MusicProvider(models.Model):
     #   1 - Artist
     #   2 - Label
     #   3 - Promoter
-    providertype = models.IntegerField(default=1, validators=[MaxValueValidator(3), MinLengthValidator(1)])
+    providertype = models.IntegerField(default=1)
 
     def __str__(self):
         return self.providername
