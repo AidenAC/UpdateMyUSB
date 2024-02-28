@@ -20,7 +20,7 @@ class Song(models.Model):
     songid = models.AutoField(primary_key=True)
     artist = models.CharField(max_length=255, blank=False)
     title = models.CharField(max_length=255, blank=False)
-    label = models.ForeignKey(Label, on_delete=models.CASCADE)
+    label = models.ForeignKey(Label, on_delete=models.CASCADE, blank=True, null=True)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     provider = models.ForeignKey(MusicProvider, on_delete=models.CASCADE)
     releasedate = models.DateField(null=True)
