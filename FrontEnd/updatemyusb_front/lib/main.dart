@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/link.dart';
+
+import 'music.dart';
 
 void main() {
   runApp(const MainApp());
@@ -20,8 +21,15 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +37,16 @@ class HomePage extends StatelessWidget {
     final style = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.onPrimary
     );
+
+    Widget page;
+    switch (pageIndex) {
+      case 0:
+        page = MusicPage();
+      case 1:
+        page = Placeholder();
+      default:
+        throw UnimplementedError('no page for $pageIndex');
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +62,11 @@ class HomePage extends StatelessWidget {
                 color: style.color,
               ),
               tooltip: 'New Music!',
-              onPressed: () { }, 
+              onPressed: () {
+                setState(() {
+                  pageIndex = 0;
+                });
+              }, 
             ),
             IconButton(
               icon: Icon(
@@ -52,38 +74,17 @@ class HomePage extends StatelessWidget {
                 color: style.color,
               ),
               tooltip: 'User Profile',
-              onPressed: () { }, 
+              onPressed: () {
+                setState(() {
+                  pageIndex = 1;
+                });
+              }, 
             ),
           ],
       ),
-      body: const Center(
-        child: SongLink(),
-      ),
-    );
-  }
-}
-
-class SongLink extends StatelessWidget {
-  const SongLink({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.displaySmall!.copyWith(
-      color: theme.colorScheme.onSurface
-    );
-
-    return Link(
-      target: LinkTarget.self,
-      uri: Uri.parse('https://soundcloud.com/sub49records/fefo-electric-siren-saturday-night-fever'),
-      builder: (context, followLink) => ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: theme.colorScheme.surface),
-        onPressed: followLink,
-        child: Text(
-          'Saturday Night Fever',
-          style: style,
+      body: Container(
+        child: Center(
+          child: page,
         ),
       ),
     );
