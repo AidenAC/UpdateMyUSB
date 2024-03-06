@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:url_launcher/link.dart';
 
 class MusicPage extends StatelessWidget {
@@ -6,8 +7,22 @@ class MusicPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: SongLink(),
+    return Center(
+      child: ListView(
+        padding: const EdgeInsets.all(10),
+        children: [
+          Container(
+            height: 60,
+            padding: EdgeInsets.all(5),
+            child: SongLink(),
+          ),
+          Container(
+            height: 60,
+            padding: EdgeInsets.all(5),
+            child: SongLink(),
+          ),
+        ],
+      ),
     );
   }
 
