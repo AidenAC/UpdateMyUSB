@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:url_launcher/link.dart';
 
 class MusicPage extends StatelessWidget {
@@ -13,13 +12,13 @@ class MusicPage extends StatelessWidget {
         children: [
           Container(
             height: 60,
-            padding: EdgeInsets.all(5),
-            child: SongLink(),
+            padding: const EdgeInsets.all(5),
+            child: const SongLink(),
           ),
           Container(
             height: 60,
-            padding: EdgeInsets.all(5),
-            child: SongLink(),
+            padding: const EdgeInsets.all(5),
+            child: const SongLink(),
           ),
         ],
       ),
