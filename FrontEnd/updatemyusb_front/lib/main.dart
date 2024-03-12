@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'music.dart';
+import 'music_data.dart';
 
 void main() {
   runApp(const MainApp());
@@ -30,6 +31,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var pageIndex = 0;
+  late Future<List<Song>> songs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    songs = getSongs();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     Widget page;
     switch (pageIndex) {
       case 0:
-        page = MusicPage();
+        page = MusicPage(songs);
       case 1:
         page = Placeholder();
       default:
