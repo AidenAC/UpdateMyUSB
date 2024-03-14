@@ -16,6 +16,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     switch (userIndex) {
+      //Use Case: User not authenticated
       case 0:
         userAction = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -24,7 +25,6 @@ class _UserPageState extends State<UserPage> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                print('login');
                 setState(() {
                   userIndex = 1;
                 });
@@ -36,13 +36,17 @@ class _UserPageState extends State<UserPage> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                print('create account');
+                setState(() {
+                  userIndex = 2;
+                });
               },
               child: const Text('Create Account'),
             ),
           ),
         ],
       );
+
+      //Use Case: User loggs in existing account
       case 1:
         userAction = Column(
           children: [
@@ -93,13 +97,79 @@ class _UserPageState extends State<UserPage> {
               children: [
                 const Text('Dont have an account?'),
                 TextButton(
-                  onPressed: () {print('create an account');},
+                  onPressed: () {
+                    setState(() {
+                      userIndex = 2;
+                    });
+                  },
                   child: const Text('Create Account'),
                 ),
               ],
             ),
           ],
         );
+
+      //Use Case: User creates new account
+      case 2:
+        userAction = Column(
+          children: [
+            Row(
+              children: [
+                BackButton(
+                  onPressed: () {
+                    setState(() {
+                      userIndex = 0;
+                    });
+                  }
+                ),
+              ],
+            ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Sign up as a...'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {print('dj');},
+                          child: const Text('DJ'),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          onPressed: () {print('music provider');},
+                          child: const Text('Music Provider'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Already have an account?'),
+                      TextButton(
+                        onPressed: () {
+                          print('login');
+                          setState(() {
+                            userIndex = 1;
+                          });
+                        },
+                        child: const Text('Login'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+
+      //Unreachable index error
       default:
         throw UnimplementedError();
     }
