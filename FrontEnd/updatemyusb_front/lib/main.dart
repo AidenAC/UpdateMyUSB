@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'music.dart';
 import 'music_data.dart';
+import 'user.dart';
 
 void main() {
   runApp(const MainApp());
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         page = MusicPage(songs);
       case 1:
-        page = Placeholder();
+        page = const UserPage();
       default:
         throw UnimplementedError('no page for $pageIndex');
     }
