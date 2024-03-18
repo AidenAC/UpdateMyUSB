@@ -80,6 +80,7 @@ class _UserPageState extends State<UserPage> {
                       decoration: const InputDecoration(
                         hintText: 'Password',
                       ),
+                      obscureText: true,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
