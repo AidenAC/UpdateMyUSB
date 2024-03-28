@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'user_data.dart';
+
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
@@ -48,6 +50,8 @@ class _UserPageState extends State<UserPage> {
 
       //Use Case: User loggs in existing account
       case 1:
+        final email = TextEditingController();
+        final password = TextEditingController();
         userAction = Column(
           children: [
             Row(
@@ -72,11 +76,13 @@ class _UserPageState extends State<UserPage> {
                 child: Column (
                   children: [
                     TextFormField(
+                      controller: email,
                       decoration: const InputDecoration(
                         hintText: 'Email',
                       ),
                     ),
                     TextFormField(
+                      controller: password,
                       decoration: const InputDecoration(
                         hintText: 'Password',
                       ),
@@ -85,7 +91,7 @@ class _UserPageState extends State<UserPage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: ElevatedButton(
-                        onPressed: () {print('logged in');},
+                        onPressed: () {login(email.text, password.text);},
                         child: const Text('Login'),
                       ),
                     ),
