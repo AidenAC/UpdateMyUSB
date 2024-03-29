@@ -91,7 +91,19 @@ class _UserPageState extends State<UserPage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: ElevatedButton(
-                        onPressed: () {login(email.text, password.text);},
+                        onPressed: () async {
+                          final auth = await login(email.text, password.text);
+
+                          if (auth == 202) {
+                            setState(() {
+                              userIndex = 3;
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Error logging in, try again...")),
+                            );
+                          }
+                        },
                         child: const Text('Login'),
                       ),
                     ),
@@ -174,6 +186,15 @@ class _UserPageState extends State<UserPage> {
               ),
             ),
           ],
+        );
+
+        case 3:
+        userAction = const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Logged in successfully!"),
+            Text("Let's find new music..."),
+          ]
         );
 
       //Unreachable index error

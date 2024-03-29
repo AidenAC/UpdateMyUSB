@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-login(email, password) async {
+Future<int> login(email, password) async {
   var response = await http.post(
     Uri.parse('http://127.0.0.1:8000/users/login/'),
     body: {
@@ -15,4 +15,6 @@ login(email, password) async {
   } else {
     print('login failed');
   }
+
+  return response.statusCode;
 }
