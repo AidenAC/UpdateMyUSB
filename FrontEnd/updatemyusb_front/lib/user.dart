@@ -188,6 +188,7 @@ class _UserPageState extends State<UserPage> {
           ],
         );
 
+        //Use Case: User logs in successfully
         case 3:
         userAction = const Column(
           mainAxisAlignment: MainAxisAlignment.center,
