@@ -54,6 +54,9 @@ class _HomePageState extends State<HomePage> {
         page = MusicPage(songs);
       case 1:
         page = const UserPage();
+      //Case for when user is logged in
+      case 2:
+        page = const Placeholder();
       default:
         throw UnimplementedError('no page for $pageIndex');
     }
