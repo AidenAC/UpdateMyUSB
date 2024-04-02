@@ -1,7 +1,8 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
+from django.http import JsonResponse
 from .models import User
 from .serializers import LoginSerializer
 
@@ -13,3 +14,10 @@ def loginUser(request):
     user = serializer.validated_data['user']
     login(request, user)
     return Response(None, status=status.HTTP_202_ACCEPTED)
+
+
+@api_view(['GET'])
+def authCheck(request):
+    return JsonResponse({
+        "is_authenticated": request.user.is_authenticated
+    })
