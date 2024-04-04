@@ -17,6 +17,10 @@ class _UserPageState extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
+    //NOTE: state management is A MESS in this version of the app (:
+    //  we just want some version of this app to work now...
+    //        even if its terrible
+    
     switch (userIndex) {
       //Use Case: User not authenticated
       case 0:

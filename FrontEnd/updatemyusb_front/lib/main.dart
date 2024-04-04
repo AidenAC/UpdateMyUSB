@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'music.dart';
 import 'music_data.dart';
 import 'user.dart';
+import 'user_data.dart';
 
 void main() {
   runApp(const MainApp());
@@ -88,9 +89,18 @@ class _HomePageState extends State<HomePage> {
               ),
               tooltip: 'User Profile',
               onPressed: () {
-                setState(() {
-                  pageIndex = 1;
-                });
+                //NOTE: this is a VERY BAD way to implement authentication
+                //  this is just being used to build some early version of the app
+                
+                if (user == null) { //User not authenticated
+                  setState(() {
+                    pageIndex = 1;
+                  });
+                } else { //User is authenticated
+                  setState(() {
+                    pageIndex = 2;
+                  });
+                }
               }, 
             ),
           ],
