@@ -1,10 +1,11 @@
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import login
 from django.http import JsonResponse
 from .models import User
-from .serializers import LoginSerializer
+from .serializers import LoginSerializer, UserSerializer
 
 @api_view(['POST'])
 def loginUser(request):
@@ -21,3 +22,10 @@ def authCheck(request):
     return JsonResponse({
         "is_authenticated": request.user.is_authenticated
     })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUser(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
