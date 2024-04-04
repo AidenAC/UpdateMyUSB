@@ -14,7 +14,11 @@ def loginUser(request):
     serializer.is_valid(raise_exception=True)
     user = serializer.validated_data['user']
     login(request, user)
-    return Response(None, status=status.HTTP_202_ACCEPTED)
+
+    userData = request.user
+    userSerializer = UserSerializer(userData)
+
+    return Response(userSerializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 @api_view(['GET'])
