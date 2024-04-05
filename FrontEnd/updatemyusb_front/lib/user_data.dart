@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-var user;
+late User user;
+var auth = false;
 
 Future<int> login(email, password) async {
   var response = await http.post(
@@ -16,6 +17,7 @@ Future<int> login(email, password) async {
   if (response.statusCode == 202) {
     //If login success save user to session
     user = User.fromJson(jsonDecode(response.body));
+    auth = true;
     print('login success');
   } else {
     print('login failed');
