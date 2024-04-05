@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 late User user;
+late DJ dj;
 var auth = false;
 
 Future<int> login(email, password) async {
@@ -18,12 +19,20 @@ Future<int> login(email, password) async {
     //If login success save user to session
     user = User.fromJson(jsonDecode(response.body));
     auth = true;
+
+    if (user.isDJ) {loadDJ(user.id);}
+    
     print('login success');
   } else {
     print('login failed');
   }
 
   return response.statusCode;
+}
+
+loadDJ(id) async {
+  var response = await http.get(Uri.parse('http://localhost:8000/users/dj/$id/'));
+  dj = DJ.fromJson(jsonDecode(response.body));
 }
 
 //Debug: Unused functions and classes to test auth
@@ -98,6 +107,33 @@ class User {
         isProvider: isProvider,
       ),
       _ => throw const FormatException('Failed to load user'),
+    };
+  }
+}
+
+class DJ {
+  final int djid;
+  final String email;
+  final String djname;
+
+  const DJ({
+    required this.djid,
+    required this.email,
+    required this.djname,
+  });
+
+  factory DJ.fromJson(Map<String, dynamic> json) {
+    return switch(json) {
+      {
+        'djid': int djid,
+        'email': String email,
+        'djname': String djname,
+      } => DJ(
+        djid: djid,
+        email: email,
+        djname: djname,
+      ),
+      _ => throw const FormatException('Failed to load DJ'),
     };
   }
 }

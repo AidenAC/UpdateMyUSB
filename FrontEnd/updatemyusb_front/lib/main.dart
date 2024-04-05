@@ -58,6 +58,8 @@ class _HomePageState extends State<HomePage> {
         page = const UserPage();
       case 2:
         page = const ProfilePage();
+      case 3:
+        page = const Placeholder();
       default:
         throw UnimplementedError('no page for $pageIndex');
     }
@@ -115,7 +117,12 @@ class _HomePageState extends State<HomePage> {
                           Visibility(
                             visible: user.isDJ,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 3;
+                                  Navigator.of(context).pop();
+                                });
+                              },
                               child: const Text('Saved Songs'),
                             ),
                           ),
