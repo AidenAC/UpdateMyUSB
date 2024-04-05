@@ -55,17 +55,26 @@ class SongLink extends StatelessWidget {
       color: theme.colorScheme.onSurface
     );
 
-    return Link(
-      target: LinkTarget.self,
-      uri: Uri.parse(link),
-      builder: (context, followLink) => ElevatedButton(
-        style: ElevatedButton.styleFrom(backgroundColor: theme.colorScheme.surface),
-        onPressed: followLink,
-        child: Text(
-          title,
-          style: style,
+    return Row(
+      children: [
+        Link(
+          target: LinkTarget.self,
+          uri: Uri.parse(link),
+          builder: (context, followLink) => ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: theme.colorScheme.surface),
+            onPressed: followLink,
+            child: Text(
+              title,
+              style: style,
+            ),
+          ),
         ),
-      ),
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.bookmark_add_outlined),
+          tooltip: 'Save!',
+        ),
+      ],
     );
   }
 }
