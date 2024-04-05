@@ -112,6 +112,20 @@ class _HomePageState extends State<HomePage> {
                             },
                             child: const Text('Profile'),
                           ),
+                          Visibility(
+                            visible: user.isDJ,
+                            child: TextButton(
+                              onPressed: () {},
+                              child: const Text('Saved Songs'),
+                            ),
+                          ),
+                          Visibility(
+                            visible: user.isProvider,
+                            child: TextButton(
+                              onPressed: () {},
+                              child: const Text('Add Song'),
+                            ),
+                          ),
                         ],
                       ),
                     );
