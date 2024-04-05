@@ -4,6 +4,7 @@ import 'music.dart';
 import 'music_data.dart';
 import 'user.dart';
 import 'user_data.dart';
+import 'profile.dart';
 
 void main() {
   runApp(const MainApp());
@@ -55,9 +56,8 @@ class _HomePageState extends State<HomePage> {
         page = MusicPage(songs);
       case 1:
         page = const UserPage();
-      //Case for when user is logged in
       case 2:
-        page = const Placeholder();
+        page = const ProfilePage();
       default:
         throw UnimplementedError('no page for $pageIndex');
     }
@@ -98,7 +98,23 @@ class _HomePageState extends State<HomePage> {
                   });
                 } else { //User is authenticated
                   setState(() {
-                    pageIndex = 2;
+                    showDialog(
+                      context: context,
+                      builder: (context) =>  SimpleDialog(
+                        title: const Text('User Options'),
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                pageIndex = 2;
+                                Navigator.of(context).pop();
+                              });
+                            },
+                            child: const Text('Profile'),
+                          ),
+                        ],
+                      ),
+                    );
                   });
                 }
               }, 
