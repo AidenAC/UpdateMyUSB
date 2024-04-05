@@ -14,6 +14,11 @@ class ProfilePage extends StatelessWidget {
         Text('${user.fname} ${user.lname}'),
         Text('Email: ${user.email}'),
         Text('Location: ${user.location}'),
+
+        Visibility(
+          visible: user.isDJ,
+          child: Text('DJ Name: ${dj.djname}'),
+        ),
       ],
     );
   }
