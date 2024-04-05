@@ -5,6 +5,7 @@ import 'music_data.dart';
 import 'user.dart';
 import 'user_data.dart';
 import 'profile.dart';
+import 'saved.dart';
 
 void main() {
   runApp(const MainApp());
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> {
       case 2:
         page = const ProfilePage();
       case 3:
-        page = const Placeholder();
+        page = const SavedSongsPage();
       default:
         throw UnimplementedError('no page for $pageIndex');
     }
