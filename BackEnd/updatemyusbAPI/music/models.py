@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import MusicProvider
+from users.models import MusicProvider, DJ
 
 class Label(models.Model):
     labelid = models.AutoField(primary_key=True)
@@ -26,6 +26,8 @@ class Song(models.Model):
     releasedate = models.DateField(null=True)
 
     soundcloud = models.URLField(blank=True)
+
+    djs = models.ManyToManyField(DJ, related_name='songs', blank=True)
 
     def __str__(self):
         return self.title

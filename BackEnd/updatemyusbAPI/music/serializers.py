@@ -8,4 +8,5 @@ class SongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Song
-        fields = '__all__'
+        #fields = '__all__'  #all shows djs that saved the song also
+        fields = ['songid', 'label', 'genre', 'provider', 'artist', 'title', 'releasedate', 'soundcloud']
