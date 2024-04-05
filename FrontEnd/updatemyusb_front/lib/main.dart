@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                 //NOTE: this is a VERY BAD way to implement authentication
                 //  this is just being used to build some early version of the app
                 
-                if (user == null) { //User not authenticated
+                if (!auth) { //User not authenticated
                   setState(() {
                     pageIndex = 1;
                   });
