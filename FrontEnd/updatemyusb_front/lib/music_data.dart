@@ -15,6 +15,20 @@ Future<List<Song>> getSongs() async {
   }
 }
 
+Future<List<Song>> getSavedSongs(djID) async {
+  final response = await http.get(Uri.parse('http://localhost:8000/music/songs/saved/$djID/'));
+
+  if (response.statusCode == 200) {
+    List<Song> songs = [];
+    for (var i = 0; i < jsonDecode(response.body).length; ++i) {
+      songs.add(Song.fromJson(jsonDecode(response.body)[i] as Map<String, dynamic>));
+    }
+    return songs;
+  } else {
+    throw Exception('Failed to load song');
+  }
+}
+
 class Song {
   final int songid;
   final String label;
