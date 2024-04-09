@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
 import 'music_data.dart';
+import 'user_data.dart';
 
 class MusicPage extends StatelessWidget {
   late final Future<List<Song>> songs;
@@ -24,6 +25,7 @@ class MusicPage extends StatelessWidget {
                   height: 60,
                   padding: const EdgeInsets.all(5),
                   child: SongLink(
+                    snapshot.data!.elementAt(index).songid,
                     snapshot.data!.elementAt(index).soundcloud,
                     snapshot.data!.elementAt(index).title,
                   ),
@@ -41,10 +43,11 @@ class MusicPage extends StatelessWidget {
 }
 
 class SongLink extends StatelessWidget {
+  late final int songID;
   late final String link;
   late final String title;
 
-  SongLink(this.link, this.title, {super.key}) {
+  SongLink(this.songID, this.link, this.title, {super.key}) {
     super.key;
   }
 
@@ -70,7 +73,25 @@ class SongLink extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            if (auth && user.isDJ) {
+              final code = await saveSong(songID, dj.djid);
+
+              if(code == 200) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Song Saved!")),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Error saving song...")),
+                );
+              }
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Log in as a DJ to save music!")),
+              );
+            }
+          },
           icon: const Icon(Icons.bookmark_add_outlined),
           tooltip: 'Save!',
         ),

@@ -29,6 +29,11 @@ Future<List<Song>> getSavedSongs(djID) async {
   }
 }
 
+Future<int> saveSong(songID, djID) async {
+  final response = await http.put(Uri.parse('http://localhost:8000/music/song/save/$songID/$djID/'));
+  return response.statusCode;
+}
+
 class Song {
   final int songid;
   final String label;
