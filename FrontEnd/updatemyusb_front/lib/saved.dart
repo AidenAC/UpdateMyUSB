@@ -39,6 +39,7 @@ class _SavedSongsPageState extends State<SavedSongsPage> {
                     height: 60,
                     padding: const EdgeInsets.all(5),
                     child: SongLink(
+                      snapshot.data!.elementAt(index).songid,
                       snapshot.data!.elementAt(index).soundcloud,
                       snapshot.data!.elementAt(index).title,
                     ),
