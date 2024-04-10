@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import SongSerializer, LabelSerializer, GenreSerializer
+from .serializers import SongSerializer, CreateSongSerializer, LabelSerializer, GenreSerializer
 from .models import Song, Label, Genre
 from users.models import DJ
 
@@ -29,8 +29,12 @@ def SaveSong(request, songid, djid):
         return Response(None, status=status.HTTP_200_OK)
     
 
-#@api_view(['POST'])
-#def addSong(request):
+@api_view(['POST'])
+def addSong(request):
+    serializer = CreateSongSerializer(data=request.data, context={ 'request': request })
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(None, status=status.HTTP_201_CREATED)
 
 @api_view(['GET'])
 def getLabels(request):
