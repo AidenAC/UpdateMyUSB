@@ -44,10 +44,17 @@ class CreateSongSerializer(serializers.Serializer):
     def create(self, validated_data):
         return Song.objects.create(**validated_data)
     
-    class Meta:
-        fields = '__all__'
+    #View serializer for testing
+    #class Meta:
+    #    fields = '__all__'
 
 class LabelSerializer(serializers.ModelSerializer):
+    labelname = serializers.CharField(label='labelname')
+    location = serializers.CharField(label='location', allow_blank=True)
+
+    def create(self, validated_data):
+        return Label.objects.create(**validated_data)
+
     class Meta:
         model = Label
         fields = '__all__'
