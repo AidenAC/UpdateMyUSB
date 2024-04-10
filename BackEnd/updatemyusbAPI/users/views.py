@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import login
 from django.http import JsonResponse
-from .models import User, DJ
-from .serializers import LoginSerializer, UserSerializer, DJSerializer
+from .models import User, DJ, MusicProvider
+from .serializers import LoginSerializer, UserSerializer, DJSerializer, MusicProviderSerializer
 
 @api_view(['POST'])
 def loginUser(request):
@@ -21,22 +21,28 @@ def loginUser(request):
     return Response(userSerializer.data, status=status.HTTP_202_ACCEPTED)
 
 #Unused in prototype
-@api_view(['GET'])
-def authCheck(request):
-    return JsonResponse({
-        "is_authenticated": request.user.is_authenticated
-    })
+#@api_view(['GET'])
+#def authCheck(request):
+#    return JsonResponse({
+#        "is_authenticated": request.user.is_authenticated
+#    })
 
 #Unused in prototype
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getUser(request):
-    user = request.user
-    serializer = UserSerializer(user)
-    return Response(serializer.data)
+#@api_view(['GET'])
+#@permission_classes([IsAuthenticated])
+#def getUser(request):
+#    user = request.user
+#    serializer = UserSerializer(user)
+#    return Response(serializer.data)
 
 @api_view(['GET'])
 def getDJ(request, userID):
     dj = DJ.objects.get(email_id=userID)
     serializer = DJSerializer(dj)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getProvider(request, userID):
+    provider = MusicProvider.objects.get(email_id=userID)
+    serializer = MusicProviderSerializer(provider)
     return Response(serializer.data)
