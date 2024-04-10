@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import SongSerializer
 from .models import Song
+from users.models import DJ
 
 @api_view(['GET'])
 def getSongs(request):
@@ -19,5 +20,10 @@ def getSavedSongs(request, djid):
 @api_view(['PUT'])
 def SaveSong(request, songid, djid):
     song = Song.objects.get(pk=songid)
-    song.djs.add(djid)
-    return Response(None, status=status.HTTP_200_OK)
+    dj = DJ.objects.get(pk=djid)
+
+    if song.djs.contains(dj):
+        return Response(None, status=status.HTTP_208_ALREADY_REPORTED)
+    else:
+        song.djs.add(djid)
+        return Response(None, status=status.HTTP_200_OK)
