@@ -60,6 +60,11 @@ class LabelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class GenreSerializer(serializers.ModelSerializer):
+    genrename = serializers.CharField(label='genrename')
+
+    def create(self, validated_data):
+        return Genre.objects.create(**validated_data)
+
     class Meta:
         model = Genre
         fields = '__all__'
