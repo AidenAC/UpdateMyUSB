@@ -81,6 +81,10 @@ class SongLink extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Song Saved!")),
                 );
+              } else if(code == 208) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Song already saved.")),
+                );
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Error saving song...")),
