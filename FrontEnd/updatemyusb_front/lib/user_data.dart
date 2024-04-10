@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 late User user;
 late DJ dj;
+late Provider provider;
 var auth = false;
 
 Future<int> login(email, password) async {
@@ -21,6 +22,7 @@ Future<int> login(email, password) async {
     auth = true;
 
     if (user.isDJ) {loadDJ(user.id);}
+    if (user.isProvider) {loadProvider(user.id);}
     
     print('login success');
   } else {
@@ -33,6 +35,11 @@ Future<int> login(email, password) async {
 loadDJ(id) async {
   var response = await http.get(Uri.parse('http://localhost:8000/users/dj/$id/'));
   dj = DJ.fromJson(jsonDecode(response.body));
+}
+
+loadProvider(id) async {
+  var response = await http.get(Uri.parse('http://localhost:8000/users/provider/$id/'));
+  provider = Provider.fromJson(jsonDecode(response.body));
 }
 
 //Debug: Unused functions and classes to test auth
@@ -135,5 +142,49 @@ class DJ {
       ),
       _ => throw const FormatException('Failed to load DJ'),
     };
+  }
+}
+
+class Provider {
+  final int providerid;
+  final String email;
+  final String providername;
+  final int providertype;
+
+  const Provider({
+    required this.providerid,
+    required this.email,
+    required this.providername,
+    required this.providertype,
+  });
+
+  factory Provider.fromJson(Map<String, dynamic> json) {
+    return switch(json) {
+      {
+        'providerid': int providerid,
+        'email': String email,
+        'providername': String providername,
+        'providertype': int providertype,
+      } => Provider(
+        providerid: providerid,
+        email: email,
+        providername: providername,
+        providertype: providertype,
+      ),
+      _ => throw const FormatException('Failed to load Provider'),
+    };
+  }
+
+  String getType() {
+    switch(providertype) {
+      case 1:
+        return "Artist";
+      case 2:
+        return "Label";
+      case 3:
+        return "Promoter";
+      default:
+        return "Invalid Type";
+    }
   }
 }
