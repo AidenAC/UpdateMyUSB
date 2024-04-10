@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import User, DJ
+from .models import User, DJ, MusicProvider
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(label='email')
@@ -30,4 +30,11 @@ class DJSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DJ
+        fields = '__all__'
+
+class MusicProviderSerializer(serializers.ModelSerializer):
+    email = serializers.StringRelatedField()
+
+    class Meta:
+        model = MusicProvider
         fields = '__all__'
