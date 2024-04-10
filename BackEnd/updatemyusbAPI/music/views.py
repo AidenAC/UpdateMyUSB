@@ -56,3 +56,10 @@ def getGenres(request):
     genres = Genre.objects.all()
     serializer = GenreSerializer(genres, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def addGenre(request):
+    serializer = GenreSerializer(data=request.data, context={ 'request': request })
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(None, status=status.HTTP_201_CREATED)
