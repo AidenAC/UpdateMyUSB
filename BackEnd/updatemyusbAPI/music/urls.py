@@ -7,5 +7,6 @@ urlpatterns = [
     path('songs/saved/<int:djid>/', views.getSavedSongs),
     path('song/save/<int:songid>/<int:djid>/', views.SaveSong),
     path('labels/', views.getLabels),
+    path('labels/add/', views.addLabel),
     path('genres/', views.getGenres),
 ]
