@@ -15,12 +15,14 @@ class _NewSongPageState extends State<NewSongPage> {
   late Widget newSongStatus;
 
   late Future<List<Label>> labels;
+  late Future<List<Genre>> genres;
 
   @override
   void initState() {
     super.initState();
 
     labels = getLabels();
+    genres = getGenres();
   }
 
   @override
@@ -28,7 +30,7 @@ class _NewSongPageState extends State<NewSongPage> {
     final artist = TextEditingController();
     final title = TextEditingController();
     late Label label;
-    //final genre = TextEditingController();
+    late Genre genre;
     final releasedate = TextEditingController();
     final soundcloud = TextEditingController();
 
@@ -50,50 +52,71 @@ class _NewSongPageState extends State<NewSongPage> {
                 hintText: 'Title',
               ),
             ),
-            /*
-            TextFormField(
-              controller: label,
-              decoration: const InputDecoration(
-                hintText: 'Label ID',
-              ),
-            ),
-            TextFormField(
-              controller: genre,
-              decoration: const InputDecoration(
-                hintText: 'Genre ID',
-              ),
-            ),
-            */
-            FutureBuilder<List<Label>>(
-              future: labels,
-              builder: (context, snapshot) {
-                return MenuAnchor(
-                  builder: (BuildContext context, MenuController controller,Widget? child) {
-                    return TextButton(
-                      onPressed: () {
-                        if (controller.isOpen){
-                          controller.close();
-                        } else {
-                          controller.open();
-                        }
-                      },
-                      child: const Text('Label'),
-                    );
-                  },
-                  menuChildren: List<MenuItemButton>.generate(
-                    snapshot.data!.length, 
-                    (index) => MenuItemButton(
-                      onPressed: () {
-                        label = snapshot.data!.elementAt(index);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("${label.labelname} selected.")),
+            Row(
+              children: [
+                FutureBuilder<List<Label>>(
+                  future: labels,
+                  builder: (context, snapshot) {
+                    return MenuAnchor(
+                      builder: (BuildContext context, MenuController controller,Widget? child) {
+                        return TextButton(
+                          onPressed: () {
+                            if (controller.isOpen){
+                              controller.close();
+                            } else {
+                              controller.open();
+                            }
+                          },
+                          child: const Text('Label'),
                         );
                       },
-                      child: Text(snapshot.data!.elementAt(index).labelname),
-                    ),
-                  ),
-                );
-              }
+                      menuChildren: List<MenuItemButton>.generate(
+                        snapshot.data!.length, 
+                        (index) => MenuItemButton(
+                          onPressed: () {
+                            label = snapshot.data!.elementAt(index);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("${label.labelname} selected.")),
+                            );
+                          },
+                          child: Text(snapshot.data!.elementAt(index).labelname),
+                        ),
+                      ),
+                    );
+                  }
+                ),
+                FutureBuilder<List<Genre>>(
+                  future: genres,
+                  builder: (context, snapshot) {
+                    return MenuAnchor(
+                      builder: (BuildContext context, MenuController controller,Widget? child) {
+                        return TextButton(
+                          onPressed: () {
+                            if (controller.isOpen){
+                              controller.close();
+                            } else {
+                              controller.open();
+                            }
+                          },
+                          child: const Text('Genre'),
+                        );
+                      },
+                      menuChildren: List<MenuItemButton>.generate(
+                        snapshot.data!.length, 
+                        (index) => MenuItemButton(
+                          onPressed: () {
+                            genre = snapshot.data!.elementAt(index);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("${genre.genrename} selected.")),
+                            );
+                          },
+                          child: Text(snapshot.data!.elementAt(index).genrename),
+                        ),
+                      ),
+                    );
+                  }
+                ),
+              ],
             ),
             TextFormField(
               controller: releasedate,
@@ -115,7 +138,7 @@ class _NewSongPageState extends State<NewSongPage> {
                     artist.text,
                     title.text,
                     label.labelid,
-                    3, //int.tryParse(genre.text),
+                    genre.genreid,
                     provider.providerid,
                     releasedate.text,
                     soundcloud.text
