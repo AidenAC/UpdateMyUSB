@@ -70,6 +70,21 @@ Future<List<Label>> getLabels() async {
   }
 }
 
+//Genre APIs
+Future<List<Genre>> getGenres() async {
+  final response = await http.get(Uri.parse('http://localhost:8000/music/genres/'));
+
+  if (response.statusCode == 200) {
+    List<Genre> genres = [];
+    for (var i = 0; i < jsonDecode(response.body).length; ++i) {
+      genres.add(Genre.fromJson(jsonDecode(response.body)[i] as Map<String, dynamic>));
+    }
+    return genres;
+  } else {
+    throw Exception('Failed to load genres');
+  }
+}
+
 //Data Classes
 class Song {
   final int songid;
@@ -141,6 +156,29 @@ class Label {
         location: location,
       ),
       _ => throw const FormatException('Failed to load labels'),
+    };
+  }
+}
+
+class Genre {
+  final int genreid;
+  final String genrename;
+
+  const Genre({
+    required this.genreid,
+    required this.genrename,
+  });
+
+  factory Genre.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {
+        'genreid': int genreid,
+        'genrename': String genrename,
+      } => Genre(
+        genreid: genreid,
+        genrename: genrename,
+      ),
+      _ => throw const FormatException('Failed to load genres'),
     };
   }
 }
