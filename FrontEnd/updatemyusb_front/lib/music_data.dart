@@ -34,6 +34,28 @@ Future<int> saveSong(songID, djID) async {
   return response.statusCode;
 }
 
+Future<int> addSong(artist, title, int label, int genre, int provider, releasedate, soundcloud) async {
+  var postBody = {
+    'artist': artist,
+    'title': title,
+    'label': label,
+    'genre': genre,
+    'provider': provider,
+    'releasedate': releasedate,
+    'soundcloud': soundcloud,
+  };
+
+  print(jsonEncode(postBody).toString());
+
+  final response = await http.post(
+    Uri.parse('http://localhost:8000/music/songs/add/'),
+    headers: {"Content-Type": "application/json"},
+    body: jsonEncode(postBody)
+  );
+
+  return response.statusCode;
+}
+
 class Song {
   final int songid;
   final String label;
