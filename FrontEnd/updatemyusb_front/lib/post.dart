@@ -14,11 +14,20 @@ class _NewSongPageState extends State<NewSongPage> {
   var statusIndex = 0;
   late Widget newSongStatus;
 
+  late Future<List<Label>> labels;
+
+  @override
+  void initState() {
+    super.initState();
+
+    labels = getLabels();
+  }
+
   @override
   Widget build(BuildContext context) {
     final artist = TextEditingController();
     final title = TextEditingController();
-    //final label = TextEditingController();
+    late Label label;
     //final genre = TextEditingController();
     final releasedate = TextEditingController();
     final soundcloud = TextEditingController();
@@ -55,6 +64,37 @@ class _NewSongPageState extends State<NewSongPage> {
               ),
             ),
             */
+            FutureBuilder<List<Label>>(
+              future: labels,
+              builder: (context, snapshot) {
+                return MenuAnchor(
+                  builder: (BuildContext context, MenuController controller,Widget? child) {
+                    return TextButton(
+                      onPressed: () {
+                        if (controller.isOpen){
+                          controller.close();
+                        } else {
+                          controller.open();
+                        }
+                      },
+                      child: const Text('Label'),
+                    );
+                  },
+                  menuChildren: List<MenuItemButton>.generate(
+                    snapshot.data!.length, 
+                    (index) => MenuItemButton(
+                      onPressed: () {
+                        label = snapshot.data!.elementAt(index);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("${label.labelname} selected.")),
+                        );
+                      },
+                      child: Text(snapshot.data!.elementAt(index).labelname),
+                    ),
+                  ),
+                );
+              }
+            ),
             TextFormField(
               controller: releasedate,
               decoration: const InputDecoration(
@@ -71,35 +111,24 @@ class _NewSongPageState extends State<NewSongPage> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () async {
-                  print('Submit clicked...');
+                  final status = await addSong(
+                    artist.text,
+                    title.text,
+                    label.labelid,
+                    3, //int.tryParse(genre.text),
+                    provider.providerid,
+                    releasedate.text,
+                    soundcloud.text
+                  );
 
-                  try {
-                    final status = await addSong(
-                      artist.text,
-                      title.text,
-                      4, //int.tryParse(label.text),
-                      3, //int.tryParse(genre.text),
-                      provider.providerid,
-                      releasedate.text,
-                      soundcloud.text
+                  if (status == 201) {
+                    setState(() {
+                      statusIndex = 1;
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Error submitting song...")),
                     );
-
-                    print('Song sent...');
-
-                    if (status == 201) {
-                      setState(() {
-                        statusIndex = 1;
-                      });
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Error submitting song...")),
-                      );
-                    }
-                  } catch (e) {
-                      print("Failed to submit song: $e");
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Failed to submit song: $e")),
-                      );
                   }
                 },
                 child: const Text('Submit'),

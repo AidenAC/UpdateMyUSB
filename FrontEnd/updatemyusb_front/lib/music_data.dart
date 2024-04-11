@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//Song APIs
 Future<List<Song>> getSongs() async {
   final response = await http.get(Uri.parse('http://127.0.0.1:8000/music/songs/'));
 
@@ -11,7 +12,7 @@ Future<List<Song>> getSongs() async {
     }
     return songs;
   } else {
-    throw Exception('Failed to load song');
+    throw Exception('Failed to load songs');
   }
 }
 
@@ -25,7 +26,7 @@ Future<List<Song>> getSavedSongs(djID) async {
     }
     return songs;
   } else {
-    throw Exception('Failed to load song');
+    throw Exception('Failed to load songs');
   }
 }
 
@@ -45,8 +46,6 @@ Future<int> addSong(artist, title, int label, int genre, int provider, releaseda
     'soundcloud': soundcloud,
   };
 
-  print(jsonEncode(postBody).toString());
-
   final response = await http.post(
     Uri.parse('http://localhost:8000/music/songs/add/'),
     headers: {"Content-Type": "application/json"},
@@ -56,6 +55,22 @@ Future<int> addSong(artist, title, int label, int genre, int provider, releaseda
   return response.statusCode;
 }
 
+//Label APIs
+Future<List<Label>> getLabels() async {
+  final response = await http.get(Uri.parse('http://localhost:8000/music/labels/'));
+
+  if (response.statusCode == 200) {
+    List<Label> labels = [];
+    for (var i = 0; i < jsonDecode(response.body).length; ++i) {
+      labels.add(Label.fromJson(jsonDecode(response.body)[i] as Map<String, dynamic>));
+    }
+    return labels;
+  } else {
+    throw Exception('Failed to load songs');
+  }
+}
+
+//Data Classes
 class Song {
   final int songid;
   final String label;
@@ -78,7 +93,6 @@ class Song {
   });
 
   factory Song.fromJson(Map<String, dynamic> json) {
-    
     return switch (json) {
       {
         'songid': int songid,
@@ -100,6 +114,33 @@ class Song {
           soundcloud: soundcloud,
         ),
       _ => throw const FormatException('Failed to load songs'),
+    };
+  }
+}
+
+class Label {
+  final int labelid;
+  final String labelname;
+  final String location;
+
+  const Label({
+    required this.labelid,
+    required this.labelname,
+    required this.location,
+  });
+
+  factory Label.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {
+        'labelid': int labelid,
+        'labelname': String labelname,
+        'location': String location,
+      } => Label(
+        labelid: labelid,
+        labelname: labelname,
+        location: location,
+      ),
+      _ => throw const FormatException('Failed to load labels'),
     };
   }
 }
