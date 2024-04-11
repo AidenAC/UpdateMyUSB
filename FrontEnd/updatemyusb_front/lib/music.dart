@@ -4,11 +4,23 @@ import 'package:url_launcher/link.dart';
 import 'music_data.dart';
 import 'user_data.dart';
 
-class MusicPage extends StatelessWidget {
-  late final Future<List<Song>> songs;
+class MusicPage extends StatefulWidget {
+  //late final Future<List<Song>> songs;
 
-  MusicPage(this.songs, {super.key}) {
-    super.key;
+  const MusicPage({super.key});
+
+  @override
+  State<MusicPage> createState() => _MusicPageState();
+}
+
+class _MusicPageState extends State<MusicPage> {
+  late Future<List<Song>> songs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    songs = getSongs();
   }
 
   @override

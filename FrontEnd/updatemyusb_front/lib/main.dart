@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'music.dart';
-import 'music_data.dart';
 import 'user.dart';
 import 'user_data.dart';
 import 'profile.dart';
 import 'saved.dart';
+import 'post.dart';
 
 void main() {
   runApp(const MainApp());
@@ -35,14 +35,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var pageIndex = 0;
-  late Future<List<Song>> songs;
-
-  @override
-  void initState() {
-    super.initState();
-
-    songs = getSongs();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +46,15 @@ class _HomePageState extends State<HomePage> {
     Widget page;
     switch (pageIndex) {
       case 0:
-        page = MusicPage(songs);
+        page = const MusicPage();
       case 1:
         page = const UserPage();
       case 2:
         page = const ProfilePage();
       case 3:
         page = const SavedSongsPage();
+      case 4:
+        page = const NewSongPage();
       default:
         throw UnimplementedError('no page for $pageIndex');
     }
@@ -130,7 +124,12 @@ class _HomePageState extends State<HomePage> {
                           Visibility(
                             visible: user.isProvider,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  pageIndex = 4;
+                                  Navigator.of(context).pop();
+                                });
+                              },
                               child: const Text('Add Song'),
                             ),
                           ),
