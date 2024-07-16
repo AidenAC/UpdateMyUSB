@@ -8,10 +8,9 @@ db.sqlite3
 db.sqlite3-journal
 media
 
-settings.py
-
 # Environment #
 virt/
+.env
 
 # Misc #
 .DS_Store
