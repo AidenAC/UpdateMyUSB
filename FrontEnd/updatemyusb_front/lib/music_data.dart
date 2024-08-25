@@ -1,9 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//API Root - localhost in dev... ONLY change this line for production :)
+String apiRoot = 'http://127.0.0.1:8000';
+
 //Song APIs
 Future<List<Song>> getSongs() async {
-  final response = await http.get(Uri.parse('http://127.0.0.1:8000/music/songs/'));
+  final response = await http.get(Uri.parse('$apiRoot/music/songs/'));
 
   if (response.statusCode == 200) {
     List<Song> songs = [];
@@ -17,7 +20,7 @@ Future<List<Song>> getSongs() async {
 }
 
 Future<List<Song>> getSavedSongs(djID) async {
-  final response = await http.get(Uri.parse('http://localhost:8000/music/songs/saved/$djID/'));
+  final response = await http.get(Uri.parse('$apiRoot/music/songs/saved/$djID/'));
 
   if (response.statusCode == 200) {
     List<Song> songs = [];
@@ -31,7 +34,7 @@ Future<List<Song>> getSavedSongs(djID) async {
 }
 
 Future<int> saveSong(songID, djID) async {
-  final response = await http.put(Uri.parse('http://localhost:8000/music/song/save/$songID/$djID/'));
+  final response = await http.put(Uri.parse('$apiRoot/music/song/save/$songID/$djID/'));
   return response.statusCode;
 }
 
@@ -47,7 +50,7 @@ Future<int> addSong(artist, title, int label, int genre, int provider, releaseda
   };
 
   final response = await http.post(
-    Uri.parse('http://localhost:8000/music/songs/add/'),
+    Uri.parse('$apiRoot/music/songs/add/'),
     headers: {"Content-Type": "application/json"},
     body: jsonEncode(postBody)
   );
@@ -57,7 +60,7 @@ Future<int> addSong(artist, title, int label, int genre, int provider, releaseda
 
 //Label APIs
 Future<List<Label>> getLabels() async {
-  final response = await http.get(Uri.parse('http://localhost:8000/music/labels/'));
+  final response = await http.get(Uri.parse('$apiRoot/music/labels/'));
 
   if (response.statusCode == 200) {
     List<Label> labels = [];
@@ -72,7 +75,7 @@ Future<List<Label>> getLabels() async {
 
 //Genre APIs
 Future<List<Genre>> getGenres() async {
-  final response = await http.get(Uri.parse('http://localhost:8000/music/genres/'));
+  final response = await http.get(Uri.parse('$apiRoot/music/genres/'));
 
   if (response.statusCode == 200) {
     List<Genre> genres = [];

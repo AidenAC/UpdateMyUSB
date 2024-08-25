@@ -6,9 +6,12 @@ late DJ dj;
 late Provider provider;
 var auth = false;
 
+//API Root - localhost in dev... ONLY change this line for production :)
+String apiRoot = 'http://127.0.0.1:8000';
+
 Future<int> login(email, password) async {
   var response = await http.post(
-    Uri.parse('http://127.0.0.1:8000/users/login/'),
+    Uri.parse('$apiRoot/users/login/'),
     body: {
       "email" : email,
       "password": password
@@ -33,12 +36,12 @@ Future<int> login(email, password) async {
 }
 
 loadDJ(id) async {
-  var response = await http.get(Uri.parse('http://localhost:8000/users/dj/$id/'));
+  var response = await http.get(Uri.parse('$apiRoot/users/dj/$id/'));
   dj = DJ.fromJson(jsonDecode(response.body));
 }
 
 loadProvider(id) async {
-  var response = await http.get(Uri.parse('http://localhost:8000/users/provider/$id/'));
+  var response = await http.get(Uri.parse('$apiRoot/users/provider/$id/'));
   provider = Provider.fromJson(jsonDecode(response.body));
 }
 
