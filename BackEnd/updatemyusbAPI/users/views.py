@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -15,6 +16,9 @@ def loginUser(request):
     user = serializer.validated_data['user']
     login(request, user)
 
+    token = Token.objects.create(user=request.user)
+    print(token.key) #ONLY USED FOR DEBUGGING
+
     userData = request.user
     userSerializer = UserSerializer(userData)
 
@@ -27,13 +31,12 @@ def loginUser(request):
 #        "is_authenticated": request.user.is_authenticated
 #    })
 
-#Unused in prototype
-#@api_view(['GET'])
-#@permission_classes([IsAuthenticated])
-#def getUser(request):
-#    user = request.user
-#    serializer = UserSerializer(user)
-#    return Response(serializer.data)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUser(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getDJ(request, userID):
