@@ -9,6 +9,8 @@ urlpatterns = [
     path('user/', views.getUser), #this endpoint is used to check users in with sessions
     path('dj/<int:userID>/', views.getDJ),
     path('provider/<int:userID>/', views.getProvider),
+
+    path('logout/', views.logoutUser),
 ]
 
 ## NOTICE ##
